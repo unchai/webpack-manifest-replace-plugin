@@ -24,7 +24,7 @@ function ManifestReplacePlugin(options) {
 ManifestReplacePlugin.prototype.apply = function (compiler) {
   var pluginOptions = this.pluginOptions;
 
-  compiler.plugin('done', function () {
+  compiler.plugin('after-emit', function (compilation, callback) {
     var manifest = require(path.join(this.options.output.path, pluginOptions.manifestFilename));
 
     glob(path.join(pluginOptions.basedir, pluginOptions.src), function (err, files) {
@@ -32,6 +32,8 @@ ManifestReplacePlugin.prototype.apply = function (compiler) {
         replaceString(manifest, file);
       });
     });
+
+    callback();
   });
 };
 
