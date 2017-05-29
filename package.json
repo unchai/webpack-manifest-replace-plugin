@@ -1,0 +1,29 @@
+{
+  "name": "webpack-manifest-replace-plugin",
+  "version": "0.0.2",
+  "description": "Webpack plugin to replace assets path using manifest file.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT",
+  "repository": "unchai/webpack-manifest-replace-plugin",
+  "author": {
+    "name": "unchai",
+    "email": "unchai@protonmail.com",
+    "url": "http://blog.tolinezip.com"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "manifest",
+    "replace"
+  ],
+  "devDependencies": {
+    "glob": "^7.1.2",
+    "graceful-fs": "^4.1.11",
+    "path": "^0.12.7"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}
