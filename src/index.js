@@ -1,52 +1,51 @@
-const path = require('path');
+import path from 'path';
 
-const fs = require('fs');
+import glob from 'glob';
 
-const glob = require('glob');
+import { buildChunkMap, replaceSource } from './lib';
 
-const pluginName = 'webpack-manifest-replace-plugin';
+const pluginName = 'manifest-replace-plugin';
 
-function replaceString(manifest, file) {
-  fs.readFile(file, 'utf8', (err, data) => {
-    if (err) throw new Error(err);
+class ManifestReplacePlugin {
+  constructor(options) {
+    this.options = Object.assign(
+      {
+        test: /\.html$/,
+      },
+      options
+    );
 
-    let result = data;
-    for (const prop in manifest) {
-      if (Object.prototype.hasOwnProperty.call(manifest, prop)) {
-        result = result.replace(new RegExp(prop, 'gm'), manifest[prop]);
-      }
+    if (!this.options.basedir) {
+      throw new Error(`[${pluginName}] options.basedir is required!`);
     }
+  }
 
-    fs.writeFile(file, result, 'utf8', (err) => {
-      if (err) throw new Error(err);
-    });
-  });
-}
+  apply(compiler) {
+    compiler.hooks.emit.tap(pluginName, (compilation) => {
+      const chunkMap = buildChunkMap(compilation);
 
-function ManifestReplacePlugin(options) {
-  this.pluginOptions = options;
-}
+      const relativeTargetDir = this.options.output
+        ? path.relative(compiler.options.output.path, this.options.output)
+        : '';
 
-ManifestReplacePlugin.prototype.apply = function(compiler) {
-  const pluginOptions = this.pluginOptions;
+      glob
+        .sync(path.join(this.options.basedir, '**/**'), { nodir: true })
+        .filter((file) => this.options.test.test(path.basename(file)))
+        .forEach((file) => {
+          const source = replaceSource(file, chunkMap);
 
-  compiler.hooks.afterEmit.tap(pluginName, () => {
-    const manifestFilePath = path.join(
-      compiler.options.output.path,
-      pluginOptions.manifestFilename
-    );
-    const manifest = require(manifestFilePath);
+          const assetKey = path.join(
+            relativeTargetDir,
+            path.relative(this.options.basedir, file)
+          );
 
-    glob(
-      path.join(pluginOptions.basedir, pluginOptions.src),
-      { ignore: [manifestFilePath] },
-      (err, files) => {
-        files.forEach((file) => {
-          replaceString(manifest, file);
+          compilation.assets[assetKey] = {
+            source: () => source,
+            size: () => source.length,
+          };
         });
-      }
-    );
-  });
-};
+    });
+  }
+}
 
 module.exports = ManifestReplacePlugin;

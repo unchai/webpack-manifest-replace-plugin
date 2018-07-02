@@ -18,9 +18,8 @@ module.exports = {
   plugins: [
     new ManifestReplacePlugin({
       basedir: path.resolve(__dirname, 'src'),
-      src: '**/*.+(jsp|html|htm)',
-      manifestFilename: 'manifest.json'
-    });
+      test: /\.(jsp|htm|html)$/,
+    })
   ]
   ...
 };
