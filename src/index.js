@@ -4,6 +4,8 @@ const fs = require('fs');
 
 const glob = require('glob');
 
+const pluginName = 'webpack-manifest-replace-plugin';
+
 function replaceString(manifest, file) {
   fs.readFile(file, 'utf8', (err, data) => {
     if (err) throw new Error(err);
@@ -28,9 +30,9 @@ function ManifestReplacePlugin(options) {
 ManifestReplacePlugin.prototype.apply = function(compiler) {
   const pluginOptions = this.pluginOptions;
 
-  compiler.plugin('after-emit', function(compilation, callback) {
+  compiler.hooks.afterEmit.tap(pluginName, () => {
     const manifestFilePath = path.join(
-      this.options.output.path,
+      compiler.options.output.path,
       pluginOptions.manifestFilename
     );
     const manifest = require(manifestFilePath);
@@ -44,8 +46,6 @@ ManifestReplacePlugin.prototype.apply = function(compiler) {
         });
       }
     );
-
-    callback();
   });
 };
 

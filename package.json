@@ -26,6 +26,9 @@
     "manifest",
     "replace"
   ],
+  "peerDependencies": {
+    "webpack": "^4.4.0"
+  },
   "dependencies": {
     "glob": "^7.1.2",
     "path": "^0.12.7"
