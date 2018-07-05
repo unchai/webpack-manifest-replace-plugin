@@ -21,21 +21,23 @@ class ManifestReplacePlugin {
   }
 
   apply(compiler) {
+    const { options } = this;
+
     compiler.hooks.emit.tap(pluginName, (compilation) => {
       const chunkMap = buildChunkMap(compilation);
-      const relativeTargetDir = this.options.outputPath
-        ? path.relative(compiler.options.output.path, this.options.outputPath)
+      const relativeTargetDir = options.outputDir
+        ? path.relative(compiler.options.output.path, options.outputDir)
         : '';
 
       glob
-        .sync(path.join(this.options.include, '**/**'), { nodir: true })
-        .filter((file) => this.options.test.test(path.basename(file)))
+        .sync(path.join(options.include, '**/**'), { nodir: true })
+        .filter((file) => options.test.test(path.basename(file)))
         .forEach((file) => {
           const source = replaceSource(file, chunkMap);
 
           const assetKey = path.join(
             relativeTargetDir,
-            path.relative(this.options.include, file)
+            path.relative(options.include, file)
           );
 
           // eslint-disable-next-line no-param-reassign
