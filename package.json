@@ -43,12 +43,10 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "cross-env": "^5.2.0",
-    "eslint": "^5.0.1",
+    "eslint": "^4.19.1",
     "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-prettier": "^2.6.1",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
-    "prettier": "^1.13.7",
     "rimraf": "^2.6.2"
   },
   "lint-staged": {
