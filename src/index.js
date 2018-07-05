@@ -23,7 +23,6 @@ class ManifestReplacePlugin {
   apply(compiler) {
     compiler.hooks.emit.tap(pluginName, (compilation) => {
       const chunkMap = buildChunkMap(compilation);
-
       const relativeTargetDir = this.options.output
         ? path.relative(compiler.options.output.path, this.options.output)
         : '';
@@ -39,6 +38,7 @@ class ManifestReplacePlugin {
             path.relative(this.options.basedir, file)
           );
 
+          // eslint-disable-next-line no-param-reassign
           compilation.assets[assetKey] = {
             source: () => source,
             size: () => source.length,
