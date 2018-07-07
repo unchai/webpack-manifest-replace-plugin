@@ -1,14 +1,13 @@
-language: node
+language: node_js
 node_js:
   - stable
   - lts/*
 env:
-  - WEBPACK_VERSION=4.4.0 PLUGIN_VERSION=1.0.0
+  - WEBPACK_VERSION=4.4.0
 install:
   - npm install --ignore-scripts
   - npm rm webpack
-  - npm rm webpack-manifest-replace-plugin
-  - npm install webpack@WEBPACK_VERSION webpack-manifest-replace-plugin@PLUGIN_VERSION --ignore-scripts || true
+  - npm install webpack@$WEBPACK_VERSION --ignore-scripts
 script:
   - npm test
 

@@ -11,7 +11,8 @@
     "prepublish": "npm run build",
     "lint": "eslint --cache src",
     "precommit": "lint-staged",
-	"test": "echo test"
+    "pretest": "rimraf test/js",
+    "test": "jest"
   },
   "license": "MIT",
   "repository": "unchai/webpack-manifest-replace-plugin",
@@ -47,8 +48,10 @@
     "eslint": "^4.19.1",
     "eslint-plugin-import": "^2.13.0",
     "husky": "^0.14.3",
+    "jest": "^23.3.0",
     "lint-staged": "^7.2.0",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "webpack": "^4.15.1"
   },
   "lint-staged": {
     "*.js": [
