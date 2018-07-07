@@ -8,6 +8,7 @@ install:
   - npm install --ignore-scripts
   - npm rm webpack
   - npm install webpack@$WEBPACK_VERSION --ignore-scripts
+  - npm run build
 script:
   - npm test
 
