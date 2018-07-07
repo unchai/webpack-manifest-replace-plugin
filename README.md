@@ -1,5 +1,9 @@
 # webpack-manifest-replace-plugin 
 
+[![Build Status](https://img.shields.io/travis/unchai/webpack-manifest-replace-plugin.svg)](https://travis-ci.org/unchai/webpack-manifest-replace-plugin)
+[![deps](https://david-dm.org/unchai/webpack-manifest-replace-plugin.svg)](https://david-dm.org/unchai/webpack-manifest-replace-plugin)
+[![npm](https://img.shields.io/npm/v/unchai/webpack-manifest-replace-plugin.svg)](https://www.npmjs.com/package/webpack-manifest-replace-plugin)
+
 Webpack plugin to replace assets path using manifest context.
 
 ### Install
