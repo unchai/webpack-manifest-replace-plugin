@@ -2,35 +2,61 @@
   "name": "webpack-manifest-replace-plugin",
   "version": "0.0.4",
   "description": "Webpack plugin to replace assets path using manifest file.",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run build -- -w",
+    "build": "cross-env NODE_ENV=production babel src -d dist --copy-files",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "prepublish": "npm run build",
+    "lint": "eslint --cache src",
+    "precommit": "lint-staged",
+    "pretest": "rimraf test/js",
+    "test": "jest"
   },
   "license": "MIT",
   "repository": "unchai/webpack-manifest-replace-plugin",
-  "author": {
-    "name": "unchai",
-    "email": "unchai@protonmail.com",
-    "url": "http://blog.tolinezip.com"
-  },
+  "author": "Jaehyeon Nam @unchai",
+  "homepage": "https://github.com/unchai/webpack-manifest-replace-plugin",
+  "bugs": "https://github.com/unchai/webpack-manifest-replace-plugin/issues",
   "contributors": [
-	  {
-		  "name": "jymoon",
-		  "url": "https://github.com/beadss"
-	  }
+    "jymoon"
   ],
-  "main": "index.js",
   "keywords": [
     "webpack",
     "plugin",
     "manifest",
     "replace"
   ],
-  "devDependencies": {
+  "peerDependencies": {
+    "webpack": "^4.4.0"
+  },
+  "dependencies": {
     "glob": "^7.1.2",
-    "graceful-fs": "^4.1.11",
     "path": "^0.12.7"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">= 6.11.5"
+  },
+  "devDependencies": {
+    "@webpack-contrib/eslint-config-webpack": "^2.0.4",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "cross-env": "^5.2.0",
+    "eslint": "^4.19.1",
+    "eslint-plugin-import": "^2.13.0",
+    "husky": "^0.14.3",
+    "jest": "^23.3.0",
+    "lint-staged": "^7.2.0",
+    "rimraf": "^2.6.2",
+    "webpack": "^4.15.1"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }

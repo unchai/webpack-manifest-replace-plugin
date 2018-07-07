@@ -1,9 +1,10 @@
 .yarnclean
+.eslintcache
 
-etc/
-node/
 node_modules/
-target/
+
+dist/
+test/js/
 
 .idea/
 *.iml
