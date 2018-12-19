@@ -2,7 +2,7 @@ import path from 'path';
 
 import glob from 'glob';
 
-import { buildChunkMap, replaceSource } from './lib';
+import {buildChunkMap, replaceSource} from './lib';
 
 const pluginName = 'manifest-replace-plugin';
 
@@ -21,7 +21,7 @@ class ManifestReplacePlugin {
   }
 
   apply(compiler) {
-    const { options } = this;
+    const {options} = this;
 
     compiler.hooks.emit.tap(pluginName, (compilation) => {
       const chunkMap = buildChunkMap(compilation);
@@ -30,7 +30,7 @@ class ManifestReplacePlugin {
         : '';
 
       glob
-        .sync(path.join(options.include, '**/**'), { nodir: true })
+        .sync(path.join(options.include, '**/**'), {nodir: true})
         .filter((file) => options.test.test(path.basename(file)))
         .forEach((file) => {
           const source = replaceSource(file, chunkMap);
