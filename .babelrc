@@ -1,35 +1,29 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
-        "useBuiltIns": true,
+        "useBuiltIns": "entry",
         "targets": {
-          "node": "6.11.5"
+          "node": "8.9.0"
+        },
+        "corejs": {
+          "version": "3.19",
+          "proposal": true
         },
         "exclude": [
-          "transform-async-to-generator",
-          "transform-regenerator"
+          "@babel/plugin-transform-async-to-generator",
+          "@babel/plugin-transform-regenerator"
         ]
       }
     ]
   ],
   "plugins": [
     [
-      "transform-object-rest-spread",
+      "@babel/plugin-proposal-object-rest-spread",
       {
         "useBuiltIns": true
       }
     ]
-  ],
-  "env": {
-    "test": {
-      "presets": [
-        "env"
-      ],
-      "plugins": [
-        "transform-object-rest-spread"
-      ]
-    }
-  }
+  ]
 }

@@ -7,6 +7,7 @@ module.exports = {
     'index': './index.js',
   },
   output: {
+    publicPath: '',
     filename: '[name]-[chunkhash].js',
   },
   plugins: [
