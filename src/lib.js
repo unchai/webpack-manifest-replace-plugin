@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 
 export function buildChunkMap(compilation) {
-  const publicPath = compilation.mainTemplate.getPublicPath({
+  const publicPath = compilation.getAssetPath(compilation.outputOptions.publicPath, {
     hash: compilation.hash,
   });
 

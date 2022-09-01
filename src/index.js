@@ -1,6 +1,9 @@
 import path from 'path';
 
+import fs from 'fs';
+
 import glob from 'glob';
+
 
 import { buildChunkMap, replaceSource } from './lib';
 
@@ -25,26 +28,24 @@ class ManifestReplacePlugin {
 
     compiler.hooks.emit.tap(pluginName, (compilation) => {
       const chunkMap = buildChunkMap(compilation);
-      const relativeTargetDir = options.outputDir
-        ? path.relative(compiler.options.output.path, options.outputDir)
-        : '';
-
+      const outputDir = options.outputDir
+        ? options.outputDir
+        : compiler.options.output.path
       glob
         .sync(path.join(options.include, '**/**'), { nodir: true })
         .filter((file) => options.test.test(path.basename(file)))
         .forEach((file) => {
           const source = replaceSource(file, chunkMap);
 
-          const assetKey = path.join(
-            relativeTargetDir,
-            path.relative(options.include, file)
-          );
+          const outputPath = path.join(outputDir, path.relative(options.include, file));
+          const dir = path.dirname(outputPath);
+          if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, {recursive: true});
+          }
 
-          // eslint-disable-next-line no-param-reassign
-          compilation.assets[assetKey] = {
-            source: () => source,
-            size: () => source.length,
-          };
+          fs.writeFile(outputPath, source, err => {
+            if (err) console.error(err);
+		  });
         });
     });
   }
