@@ -43,7 +43,9 @@ class ManifestReplacePlugin {
             fs.mkdirSync(dir, {recursive: true});
           }
 
-          fs.writeFileSync(outputPath, source);
+          fs.writeFile(outputPath, source, err => {
+            if (err) console.error(err);
+		  });
         });
     });
   }

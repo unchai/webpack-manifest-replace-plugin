@@ -4,6 +4,20 @@ const fs = require('fs');
 
 const webpack = require('webpack');
 
+const recursiveFileRead = (expectedDir, outputDir, relativeDir) => {
+  fs.readdirSync(expectedDir).forEach((expectedFile) => {
+    const filePath = path.resolve(expectedDir, expectedFile)
+    if (fs.lstatSync(filePath).isDirectory()) {
+      recursiveFileRead(filePath, outputDir, path.relative(expectedDir, filePath))
+      return;
+    }
+    const expected = fs.readFileSync(filePath, 'utf8');
+    const actual = fs.readFileSync(path.resolve(path.join(outputDir, relativeDir), expectedFile), 'utf8');
+
+    assert.strictEqual(actual, expected);
+  });
+}
+
 describe('Tests', () => {
   fs.readdirSync(path.join(__dirname, 'cases')).forEach((testCase) => {
     it(testCase, () => {
@@ -26,13 +40,9 @@ describe('Tests', () => {
         }
 
         const expectedDir = path.join(testDir, 'expected');
-        fs.readdirSync(expectedDir).forEach((expectedFile) => {
-          const expected = fs.readFileSync(path.resolve(expectedDir, expectedFile), 'utf8');
-          const actual = fs.readFileSync(path.resolve(outputDir, expectedFile), 'utf8');
-
-          assert.strictEqual(actual, expected);
-        });
+		recursiveFileRead(expectedDir, outputDir, '.');
       });
     });
   })
 });
+
